@@ -26,16 +26,19 @@ public class BronKerbosh implements BronKerboshInterface {
 		return false;
 	}
 	public boolean haveAnEdge(ArrayList<Integer> newNot, ArrayList<Integer> newCand) {
+		//boolean y = false;
 		if ( newNot.isEmpty() ) 
 			return false;
-			for ( int i = 0; i < newNot.size(); i++ ) {
-				int a = newNot.get(i);
-				for ( int j = 0; j < newCand.size(); j++ ) {
-					int b = newCand.get(j);
-					if ( edgeExist(a, b) ) return true;
-				}
+			
+		for ( int i = 0; i < newNot.size(); i++ ) {
+			int a = newNot.get(i);
+			for ( int j = 0; j < newCand.size(); j++ ) {
+				int b = newCand.get(j);
+				if ( !edgeExist(a, b) ) return false; //y = true;
+				//else y = false;
 			}
-		return false;
+		}
+		return true;
 	};
 	public void base() {
 		algBK(candidates, not);
@@ -74,56 +77,87 @@ public class BronKerbosh implements BronKerboshInterface {
 			}
 	}
 	public void algBK(ArrayList<Integer> cand, ArrayList<Integer> not) {
-		Thread t = new Thread();
+		//Thread t = new Thread();
+		//---------------------------------------------------------
+		/*System.out.print("cand: ");
+		for ( int p = 0; p < cand.size(); p++ )	
+			System.out.print(cand.get(p) + " ");
+		System.out.println("");
+		
+		System.out.print("not: ");
+		for ( int q = 0; q < not.size(); q++ ) 
+			System.out.print( not.get(q) + " " );
+		System.out.println("");*/
+		//---------------------------------------------------------
 		while ( !cand.isEmpty() && !haveAnEdge(not, cand) ) {
 			int v = cand.get(0); 
-			Object s = (Object) v;
+			Object s = (Object) v; 
 			comsub.add(v); 
-			
-			try {
+			/*try { 
 				Thread.sleep(1000);
-				for ( int i = 0; i < comsub.size(); i++ ) System.out.println("comsub.get(i) " + comsub.get(i) );
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
+				System.out.print("comsub: ");
+				for ( int i = 0; i < comsub.size(); i++ ) 
+					System.out.print(comsub.get(i) + " " );
+				System.out.println("");
+			} 
+			catch (InterruptedException e) { 
+				e.printStackTrace(); 
+				}*/
 			ArrayList<Integer> newCand = new ArrayList<>(); 
 			ArrayList<Integer> newNot = new ArrayList<>();
-			
 			newCand.addAll(cand); 
-			newNot.addAll(not);
+			newNot.addAll(not); 
 			remove(newNot, newCand, s);
-			
-			for ( int j = 0; j < graph.edges.size(); j++ )
+			for ( int j = 0; j < graph.edges.size(); j++ ) 
 				check(v, newNot, newCand, j);
-			
 			if ( newCand.isEmpty() && newNot.isEmpty() ) { 
 				if ( maxComsub.isEmpty() ) maxComsub.addAll(comsub);
-				else if ( comsub.size() > maxComsub.size() ) {
-					maxComsub.clear();
-					maxComsub.addAll(comsub);
-				}
-				try {
+				else if ( comsub.size() > maxComsub.size() ) { 
+					maxComsub.clear(); 
+					maxComsub.addAll(comsub); 
+					}
+				try { 
 					Thread.sleep(1000);
+					System.out.print("maxComsub.get: ");
 					for ( int j = 0; j < maxComsub.size(); j++ ) 
-						System.out.println("maxComsub.get(j) " + maxComsub.get(j) );
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+						System.out.print(maxComsub.get(j) + " " );
+					System.out.println("");
+				} 
+				catch (InterruptedException e) { 
+					e.printStackTrace(); 
+					}
 			}
-			else algBK(newCand, newNot);
-			comsub.remove(s); comsub.trimToSize();
+			else { 
+				algBK(newCand, newNot);
+				//System.out.println("The output from the algorithm");
+			}
+			comsub.remove(s); 
+			comsub.trimToSize();	
 			
-			try {
+			/*try { 
 				Thread.sleep(1000);
-				for ( int k = 0; k < comsub.size(); k++ )
-					System.out.println( "comsub.get(k) " + comsub.get(k) );
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			cand.remove(s); cand.trimToSize();
+				/*System.out.print( "comsub: " );
+				for ( int k = 0; k < comsub.size(); k++ ) 
+					System.out.print(comsub.get(k) + " ");
+				System.out.println("");
+			} 
+			catch (InterruptedException e) { 
+				e.printStackTrace(); 
+				}*/
+			cand.remove(s); 
+			cand.trimToSize(); 
 			not.add(v);
+			//---------------------------------------
+			/*System.out.print("cand: ");
+			for ( int p = 0; p < cand.size(); p++ )	
+				System.out.print(cand.get(p) + " ");
+			System.out.println("");
+			
+			System.out.print("not: ");
+			for ( int q = 0; q < not.size(); q++ ) 
+				System.out.print( not.get(q) + " " );
+			System.out.println("");*/
+			//---------------------------------------
 		}
 	}
 }
