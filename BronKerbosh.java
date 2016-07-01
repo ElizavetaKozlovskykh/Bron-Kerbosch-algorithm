@@ -37,59 +37,92 @@ public class BronKerbosh implements BronKerboshInterface {
 			}
 		return false;
 	};
-	public void base() {	
+	public void base() {
 		algBK(candidates, not);
 		System.out.println( "Maximal clique: " + maxComsub.size() );
 	}
+	public void check(int v, ArrayList<Integer> newNot, ArrayList<Integer> newCand, int j) {
+		if ( !edgeExist(v, graph.edges.get(j).x) ) {
+			if ( newCand.contains( graph.edges.get(j).x ) ) { 
+				newCand.remove( graph.edges.get(j).x ); 
+				newCand.trimToSize(); 
+				}
+			if ( newNot.contains( graph.edges.get(j).x ) ) { 
+				newNot.remove( graph.edges.get(j).x ); 
+				newNot.trimToSize(); 
+				}	
+		}
+		if ( !edgeExist(v, graph.edges.get(j).y) ) {
+			if ( newCand.contains( graph.edges.get(j).y ) ) { 
+				newCand.remove( graph.edges.get(j).y ); 
+				newCand.trimToSize(); 
+				}
+			if ( newNot.contains( graph.edges.get(j).y ) ) { 
+				newNot.remove( graph.edges.get(j).y ); 
+				newNot.trimToSize(); 
+				}
+		}
+	}
+	public void remove(ArrayList<Integer> newNot, ArrayList<Integer> newCand, Object s) {
+		if ( newCand.contains(s) ) { 
+			newCand.remove(s);
+			newCand.trimToSize(); 
+			}
+		if ( newNot.contains(s) ) { 
+			newNot.remove(s); 
+			newNot.trimToSize(); 
+			}
+	}
 	public void algBK(ArrayList<Integer> cand, ArrayList<Integer> not) {
+		Thread t = new Thread();
 		while ( !cand.isEmpty() && !haveAnEdge(not, cand) ) {
 			int v = cand.get(0); 
 			Object s = (Object) v;
-			comsub.add(v);
+			comsub.add(v); 
+			
+			try {
+				Thread.sleep(1000);
+				for ( int i = 0; i < comsub.size(); i++ ) System.out.println("comsub.get(i) " + comsub.get(i) );
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
 			ArrayList<Integer> newCand = new ArrayList<>(); 
 			ArrayList<Integer> newNot = new ArrayList<>();
+			
 			newCand.addAll(cand); 
 			newNot.addAll(not);
-			if ( newCand.contains(s) ) { 
-				newCand.remove(s);
-				newCand.trimToSize(); 
-				}
-			if ( newNot.contains(s) ) { 
-				newNot.remove(s); 
-				newNot.trimToSize(); 
-				}
-			for ( int j = 0; j < graph.edges.size(); j++ ) {
-				if ( !edgeExist(v, graph.edges.get(j).x) ) {
-					if ( newCand.contains( graph.edges.get(j).x ) ) { 
-						newCand.remove( graph.edges.get(j).x ); 
-						newCand.trimToSize(); 
-						}
-					if ( newNot.contains( graph.edges.get(j).x ) ) { 
-						newNot.remove( graph.edges.get(j).x ); 
-						newNot.trimToSize(); 
-						}	
-				}
-				if ( !edgeExist(v, graph.edges.get(j).y) ) {
-					if ( newCand.contains( graph.edges.get(j).y ) ) { 
-						newCand.remove( graph.edges.get(j).y ); 
-						newCand.trimToSize(); 
-						}
-					if ( newNot.contains( graph.edges.get(j).y ) ) { 
-						newNot.remove( graph.edges.get(j).y ); 
-						newNot.trimToSize(); 
-						}
-				}
-			}
+			remove(newNot, newCand, s);
+			
+			for ( int j = 0; j < graph.edges.size(); j++ )
+				check(v, newNot, newCand, j);
+			
 			if ( newCand.isEmpty() && newNot.isEmpty() ) { 
 				if ( maxComsub.isEmpty() ) maxComsub.addAll(comsub);
 				else if ( comsub.size() > maxComsub.size() ) {
 					maxComsub.clear();
 					maxComsub.addAll(comsub);
 				}
+				try {
+					Thread.sleep(1000);
+					for ( int j = 0; j < maxComsub.size(); j++ ) 
+						System.out.println("maxComsub.get(j) " + maxComsub.get(j) );
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 			else algBK(newCand, newNot);
-			comsub.remove(s); 
-			cand.remove(s); 
+			comsub.remove(s); comsub.trimToSize();
+			
+			try {
+				Thread.sleep(1000);
+				for ( int k = 0; k < comsub.size(); k++ )
+					System.out.println( "comsub.get(k) " + comsub.get(k) );
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			cand.remove(s); cand.trimToSize();
 			not.add(v);
 		}
 	}
