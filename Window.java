@@ -11,23 +11,31 @@ public class Window extends JFrame {
   private JLabel text1, text2;
   private JButton construct, start, next;
   private JPanel buttonsPanel;
+  	private GraphGraphic gg;
+  	private Container c;
+  
   private ArrayList<Integer> list1, list2, maxClique;
-  File f; 
-  Scanner scan; 
-  boolean y, x;
-
+  private File f; 
+  private Scanner scan; 
+  private boolean y, x;
   public Window() {
     super("Bron-Kerbosh algorithm");
-    //Подготавливаем компоненты объекта
+    
+    	c = getContentPane();
+		gg = new GraphGraphic();
+	//Подготавливаем компоненты объекта
     buttonsPanel = new JPanel(new FlowLayout());
     text1 = new JLabel("Brief description of the project...");
     text2 = new JLabel(" ");
+    
     construct = new JButton("Сonstruct a graph");
     start = new JButton("Start");
     next = new JButton("Next");
+    
     list1 = new ArrayList<>();
     list2 = new ArrayList<>();
     maxClique = new ArrayList<>();
+    
     y = true; x = true;
     File f = new File("note.txt");
 	try {
@@ -37,14 +45,15 @@ public class Window extends JFrame {
 	}
     
     add(text1, BorderLayout.NORTH); //расставляем компоненты по местам;
-    add(text2);
+    add(text2, BorderLayout.BEFORE_LINE_BEGINS);
 
     construct.setToolTipText("Click here to construct a graph");
     buttonsPanel.add(construct);
-    add(buttonsPanel, BorderLayout.SOUTH);
+    c.add(buttonsPanel, BorderLayout.SOUTH);
+    //c.add(gg);
     initListeners();
     
-    setBounds(100, 100, 600, 300);
+    setBounds(0, 0, 800, 730);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
   private void read(ArrayList<Integer> list) {
@@ -59,7 +68,6 @@ public class Window extends JFrame {
 	  }
 	  else x = false;
   }
-  private void paint() {}
   private void initListeners() {
 	  construct.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent e) {
@@ -68,7 +76,8 @@ public class Window extends JFrame {
 			  buttonsPanel.add(start);
 			  revalidate(); repaint();
 			  text1.setText("Maximal clique: " + 0);
-			  text2.setText("Сurrent clique: " + 0); 	  
+			  text2.setText("Сurrent clique: " + 0); 	
+			  c.add(gg);
 		  }
 	  });
 	  start.addActionListener(new ActionListener() {
@@ -98,14 +107,17 @@ public class Window extends JFrame {
 					  maxClique.addAll(list2);
 				  }
 			  }
+			  revalidate(); repaint();
 			  text2.setText("Сurrent clique: " + list1.size() );
 			  text1.setText("Maximal clique: " + maxClique.size() );
-			  revalidate(); repaint();
-			  paint();
+			  
+			  gg.repaint(g, list1);
+			  c.add(gg);
 
 			  if ( !x ) {
 				  buttonsPanel.remove(next);
 				  revalidate(); repaint();
+				  text1.setText("Maximal clique: " + maxClique.size() );
 				  text2.setText("The end" );
 			  }
 		  }
