@@ -115,12 +115,17 @@ public class BronKerbosh implements BronKerboshInterface {
 			for ( int j = 0; j < graph.edges.size(); j++ ) 
 				check(v, newNot, newCand, j);
 			if ( newCand.isEmpty() && newNot.isEmpty() ) { 
-				if ( maxComsub.isEmpty() ) maxComsub.addAll(comsub);
-				else if ( comsub.size() > maxComsub.size() ) { 
-					maxComsub.clear(); 
-					maxComsub.addAll(comsub); 
-					}
-				print(maxComsub);
+				if ( maxComsub.isEmpty() ) {
+					maxComsub.addAll(comsub);
+					print(maxComsub);
+				}
+				else {
+					if ( comsub.size() > maxComsub.size() ) { 
+						maxComsub.clear(); 
+						maxComsub.addAll(comsub); 
+						print(maxComsub);
+					} else print(comsub);
+				}
 			}
 			else { 
 				algBK(newCand, newNot);
