@@ -18,15 +18,19 @@ public class GraphGraphic extends JPanel  {
     MyPoint[] coordinates;
     private BronKerbosh gr;
     ArrayList<Integer> curClique;
+    private boolean check;
 
     GraphGraphic(/*BronKerboshInterface Gr*/) {
         //G = Gr;
     	gr = new BronKerbosh();
     	gr.base();
         coordinates = new MyPoint[ gr.graph.numVert ];
+        check=false;
     }
-    public void addList(ArrayList<Integer> list1)
-    {curClique=list1;}
+    public void addList(ArrayList<Integer> list1, boolean ch)
+    {curClique=list1;
+    check=ch;}
+
     public void DrawVert(int x, int y, Graphics p, int num) {
         String str = Integer.toString(num);
         //p.setStroke(new BasicStroke(10.0f));
@@ -62,21 +66,10 @@ public class GraphGraphic extends JPanel  {
             //DrawEdge(G.GetEdgesV1(i), G.GetEdgesV2(i), g);
       	  DrawEdge(gr.graph.edges.get(i).x, gr.graph.edges.get(i).y, g);
         }
-        g.setColor(new Color(0, 100, 255));
+        if (check) {  g.setColor(new Color(255, 0, 0));}
+            else {g.setColor(new Color(0, 100, 255));}
         for ( int i = 0; i < gr.graph.numVert/*G.GetNumVert()*/; i++ ) {
             DrawVert(coordinates[i].x, coordinates[i].y, g, i + 1);
         }
     }
-    public void repaint(Graphics g, /*ArrayList<Integer> maxClique,*/ ArrayList<Integer> curClique) {
-        g.setColor(new Color(0, 0, 0));
-        for ( int i = 0; i < gr.graph.numEdge/*G.GetNumEdges()*/; i++ ) {
-            //DrawEdge(G.GetEdgesV1(i), G.GetEdgesV2(i), g);
-      	  DrawEdge(gr.graph.edges.get(i).x, gr.graph.edges.get(i).y, g);
-        }
-        g.setColor(new Color(255, 0, 0));
-        for ( int i = 0; i < curClique.size()/*G.GetNumVert()*/; i++ ) {
-            DrawVert(coordinates[i].x, coordinates[i].y, g, curClique.get(i));
-        }
-    }
-
 }

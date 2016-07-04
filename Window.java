@@ -13,6 +13,7 @@ public class Window extends JFrame {
   private JPanel buttonsPanel;
   	private GraphGraphic gg;
   	private Container c;
+	private boolean a;
   
   private ArrayList<Integer> list1, list2, maxClique;
   private File f; 
@@ -23,12 +24,12 @@ public class Window extends JFrame {
     
     	c = getContentPane();
 		gg = new GraphGraphic();
-	//Подготавливаем компоненты объекта
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     buttonsPanel = new JPanel(new FlowLayout());
     text1 = new JLabel("Brief description of the project...");
     text2 = new JLabel(" ");
     
-    construct = new JButton("Сonstruct a graph");
+    construct = new JButton("Construct a graph");
     start = new JButton("Start");
     next = new JButton("Next");
     
@@ -44,7 +45,7 @@ public class Window extends JFrame {
 		e.printStackTrace();
 	}
     
-    add(text1, BorderLayout.NORTH); //расставляем компоненты по местам;
+    add(text1, BorderLayout.NORTH); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ;
     add(text2, BorderLayout.BEFORE_LINE_BEGINS);
 
     construct.setToolTipText("Click here to construct a graph");
@@ -76,7 +77,7 @@ public class Window extends JFrame {
 			  buttonsPanel.add(start);
 			  revalidate(); repaint();
 			  text1.setText("Maximal clique: " + 0);
-			  text2.setText("Сurrent clique: " + 0); 	
+			  text2.setText("Current clique: " + 0);
 			  c.add(gg);
 		  }
 	  });
@@ -87,7 +88,7 @@ public class Window extends JFrame {
 			  buttonsPanel.add(next);
 			  revalidate(); repaint();
 			  text1.setText("Maximal clique: " + 0);
-			  text2.setText("Сurrent clique: " + 0);
+			  text2.setText("Current clique: " + 0);
 		  }
 	  });
 	  next.addActionListener(new ActionListener() {
@@ -108,15 +109,16 @@ public class Window extends JFrame {
 				  }
 			  }
 			  revalidate(); repaint();
-			  text2.setText("Сurrent clique: " + list1.size() );
+			  text2.setText("Current clique: " + list1.size() );
 			  text1.setText("Maximal clique: " + maxClique.size() );
-			  
-			  gg.repaint(g, list1);
+			  a=true;
+			  gg.addList(list1, a);
+			  gg.repaint();
 			  c.add(gg);
 
 			  if ( !x ) {
 				  buttonsPanel.remove(next);
-				  revalidate(); repaint();
+				  revalidate(); gg.repaint();
 				  text1.setText("Maximal clique: " + maxClique.size() );
 				  text2.setText("The end" );
 			  }
