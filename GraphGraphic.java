@@ -17,6 +17,7 @@ public class GraphGraphic extends JPanel  {
     //public BronKerboshInterface G;
     MyPoint[] coordinates;
     private BronKerbosh gr;
+    ArrayList<Integer> curClique;
 
     GraphGraphic(/*BronKerboshInterface Gr*/) {
         //G = Gr;
@@ -24,6 +25,8 @@ public class GraphGraphic extends JPanel  {
     	gr.base();
         coordinates = new MyPoint[ gr.graph.numVert ];
     }
+    public void addList(ArrayList<Integer> list1)
+    {curClique=list1;}
     public void DrawVert(int x, int y, Graphics p, int num) {
         String str = Integer.toString(num);
         //p.setStroke(new BasicStroke(10.0f));
