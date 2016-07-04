@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class BronKerbosh implements BronKerboshInterface {
 	private ArrayList<Integer> comsub, candidates, not, maxComsub;
-	private Graph graph;
+	public Graph graph;
 	
 	public BronKerbosh() {
 		comsub = new ArrayList<>();
