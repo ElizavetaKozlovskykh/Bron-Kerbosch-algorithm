@@ -50,8 +50,6 @@ public class BronKerbosh implements BronKerboshInterface {
 			e.printStackTrace();
 		}
 		algBK(candidates, not);
-		//print(maxComsub);
-		System.out.println( "The size of the maximum clique: " + maxComsub.size() );
 	}
 	public void check(int v, ArrayList<Integer> newNot, ArrayList<Integer> newCand, int j) {
 		if ( !edgeExist(v, graph.edges.get(j).x) ) {

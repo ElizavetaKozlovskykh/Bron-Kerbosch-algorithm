@@ -1,8 +1,5 @@
-//import com.sun.javafx.geom.Vec2d;
-
 import javax.swing.*;
 import java.awt.*;
-//import java.util.Vector;
 import java.util.ArrayList;
 
 public class GraphGraphic extends JPanel  {
@@ -14,29 +11,22 @@ public class GraphGraphic extends JPanel  {
         }
     }
     public static Graphics2D p;
-    //public BronKerboshInterface G;
+    private ArrayList<Integer> clique;
     MyPoint[] coordinates;
     private BronKerbosh gr;
-    ArrayList<Integer> curClique;
     private boolean check;
 
-    GraphGraphic(/*BronKerboshInterface Gr*/) {
-        //G = Gr;
-    	gr = new BronKerbosh();
+    GraphGraphic() {
+        gr = new BronKerbosh();
     	gr.base();
         coordinates = new MyPoint[ gr.graph.numVert ];
-        check=false;
+        check = false;
+        clique = new ArrayList<>();
     }
-    public void addList(ArrayList<Integer> list1, boolean ch)
-    {curClique=list1;
-    check=ch;}
-
     public void DrawVert(int x, int y, Graphics p, int num) {
         String str = Integer.toString(num);
-        //p.setStroke(new BasicStroke(10.0f));
         p.drawOval(x, y, 30, 30);
         p.drawString(str, x + 12, y + 20);
-
     }
     public void SetCoordinate() {
         Double alpha = 2 * Math.PI / gr.graph.numVert;
@@ -48,28 +38,34 @@ public class GraphGraphic extends JPanel  {
         	int a = x0 + (int)Math.round(Math.cos(alpha0)) * R; 
         	int b = y0 + (int)Math.round(Math.sin(alpha0)) * R; 
         	MyPoint tmp = new MyPoint(a, b);
-        	
-        	//MyPoint tmp = new MyPoint(x0+(int)Math.round(Math.cos(alpha0))*R,y0+(int)Math.round(Math.sin(alpha0))*R);
-            coordinates[i] = tmp;
+        	coordinates[i] = tmp;
             alpha0 = alpha0 - alpha;
         }
     }
     public void DrawEdge(int x, int y, Graphics p) {
-        //p.setStroke(new BasicStroke(8.0f));
         p.drawLine(coordinates[x - 1].x + 25, coordinates[x - 1].y + 25, coordinates[y - 1].x + 25, coordinates[y - 1].y + 25);
     }
- 
+    public void setClique(ArrayList<Integer> curClique, boolean check) {
+    	clique.clear();
+    	clique.addAll(curClique);
+    	this.check = check;
+    }
     public void paint(Graphics g) {
         SetCoordinate();
         g.setColor(new Color(0, 0, 0));
-        for ( int i = 0; i < gr.graph.numEdge/*G.GetNumEdges()*/; i++ ) {
-            //DrawEdge(G.GetEdgesV1(i), G.GetEdgesV2(i), g);
+        
+        for ( int i = 0; i < gr.graph.numEdge; i++ ) {
       	  DrawEdge(gr.graph.edges.get(i).x, gr.graph.edges.get(i).y, g);
         }
-        if (check) {  g.setColor(new Color(255, 0, 0));}
-            else {g.setColor(new Color(0, 100, 255));}
-        for ( int i = 0; i < gr.graph.numVert/*G.GetNumVert()*/; i++ ) {
+        for ( int i = 0; i < gr.graph.numVert; i++ ) {
             DrawVert(coordinates[i].x, coordinates[i].y, g, i + 1);
+        }
+        
+        if ( check ) g.setColor(new Color(255, 0, 0));
+        else g.setColor(new Color(0, 100, 255));
+
+        for ( int i = 0; i < clique.size(); i++ ) {
+            DrawVert(coordinates[i].x, coordinates[i].y, g, clique.get(i));
         }
     }
 }

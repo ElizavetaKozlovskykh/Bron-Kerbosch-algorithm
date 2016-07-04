@@ -5,8 +5,7 @@ import java.util.Vector;
 
 public class Graph implements GraphInterface {
 	public static class Edge {
-		public Integer x;
-		public Integer y;
+		public Integer x, y;
 		
 		public Edge(Integer x, Integer y) {
 			this.x = x;
@@ -14,12 +13,11 @@ public class Graph implements GraphInterface {
 		}
 	}
 	public Vector <Edge> edges;
-	public  Integer numVert;
-	public  Integer numEdge;
+	public  Integer numVert, numEdge;
 	
 	public Graph() {
 		edges = new Vector<>();
-		File f = new File("2.txt");
+		File f = new File("7.txt");
 		try {
 			Scanner scan = new Scanner(f);
 			numVert = scan.nextInt();

@@ -13,9 +13,11 @@ public class Window extends JFrame {
   private JPanel buttonsPanel;
   	private GraphGraphic gg;
   	private Container c;
-	private boolean a;
+  	private boolean flag;
   
-  private ArrayList<Integer> list1, list2, maxClique;
+  private ArrayList<Integer> list1;
+  private ArrayList<Integer> list2;
+  private ArrayList<Integer> maxClique;
   private File f; 
   private Scanner scan; 
   private boolean y, x;
@@ -24,12 +26,12 @@ public class Window extends JFrame {
     
     	c = getContentPane();
 		gg = new GraphGraphic();
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		
     buttonsPanel = new JPanel(new FlowLayout());
     text1 = new JLabel("Brief description of the project...");
     text2 = new JLabel(" ");
     
-    construct = new JButton("Construct a graph");
+    construct = new JButton("Ñonstruct a graph");
     start = new JButton("Start");
     next = new JButton("Next");
     
@@ -45,25 +47,23 @@ public class Window extends JFrame {
 		e.printStackTrace();
 	}
     
-    add(text1, BorderLayout.NORTH); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;
+    add(text1, BorderLayout.NORTH); 
     add(text2, BorderLayout.BEFORE_LINE_BEGINS);
 
     construct.setToolTipText("Click here to construct a graph");
     buttonsPanel.add(construct);
     c.add(buttonsPanel, BorderLayout.SOUTH);
-    //c.add(gg);
     initListeners();
     
     setBounds(0, 0, 800, 730);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
   private void read(ArrayList<Integer> list) {
-	  list.clear();
-	  int a, size;
 	  if ( scan.hasNextInt() ) {
-		  size = scan.nextInt();
+		  list.clear();
+		  int size = scan.nextInt();
 		  for ( int i = 0; i < size; i++ ) {
-			  a = scan.nextInt();
+			  int a = scan.nextInt();
 			  list.add(a);
 		  };
 	  }
@@ -77,7 +77,7 @@ public class Window extends JFrame {
 			  buttonsPanel.add(start);
 			  revalidate(); repaint();
 			  text1.setText("Maximal clique: " + 0);
-			  text2.setText("Current clique: " + 0);
+			  text2.setText("Ñurrent clique: " + 0); 	
 			  c.add(gg);
 		  }
 	  });
@@ -88,7 +88,7 @@ public class Window extends JFrame {
 			  buttonsPanel.add(next);
 			  revalidate(); repaint();
 			  text1.setText("Maximal clique: " + 0);
-			  text2.setText("Current clique: " + 0);
+			  text2.setText("Ñurrent clique: " + 0);
 		  }
 	  });
 	  next.addActionListener(new ActionListener() {
@@ -101,26 +101,26 @@ public class Window extends JFrame {
 			  else {
 				  list1.clear(); 
 				  list1.addAll(list2); 
-
+ 
 				  if ( x ) read(list2); 
-				  if ( list1.size() == list2.size() ) {
+				  if ( list1.size() == list2.size() && !list1.isEmpty() ) {
 					  maxClique.clear();
 					  maxClique.addAll(list2);
 				  }
 			  }
 			  revalidate(); repaint();
-			  text2.setText("Current clique: " + list1.size() );
+			  text2.setText("Ñurrent clique: " + list1.size() );
 			  text1.setText("Maximal clique: " + maxClique.size() );
-			  a=true;
-			  gg.addList(list1, a);
+			  flag = true;
+			  gg.setClique(list1, flag);
 			  gg.repaint();
-			  c.add(gg);
-
+			  
 			  if ( !x ) {
+				  gg.setClique(maxClique, flag);
 				  buttonsPanel.remove(next);
-				  revalidate(); gg.repaint();
+				  revalidate(); repaint();
 				  text1.setText("Maximal clique: " + maxClique.size() );
-				  text2.setText("The end" );
+				  text2.setText("The end");
 			  }
 		  }
 	  });
