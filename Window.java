@@ -22,18 +22,18 @@ public class Window extends JFrame {
   private Scanner scan; 
   private boolean y, x;
   public Window() {
-    super("Bron-Kerbosh algorithm");
+    super("Алгоритм Брона-Кербоша");
     
     	c = getContentPane();
-		gg = new GraphGraphic();
+	gg = new GraphGraphic();
 		
     buttonsPanel = new JPanel(new FlowLayout());
-    text1 = new JLabel("Brief description of the project...");
+    text1 = new JLabel("<html> Алгоритм Брона-Кербоша — метод ветвей и границ для поиска всех клик (а также максимальных по включению независимых <br> множеств вершин) неориентированного графа. В данном проекте производится поиск клики максимального размера. Алгоритм использует тот факт, что всякая клика в графе является его максимальным по включению полным подграфом. Начиная с одиночной вершины (образующей полный подграф), алгоритм на каждом шаге пытается увеличить уже построенный полный подграф, добавляя в него вершины из множества кандидатов. Высокая скорость обеспечивается отсечением при переборе вариантов, которые заведомо не приведут к построению клики, для чего используется дополнительное множество, в которое помещаются вершины, которые уже были использованы для увеличения полного подграфа. </html>");
     text2 = new JLabel(" ");
     
-    construct = new JButton("�onstruct a graph");
-    start = new JButton("Start");
-    next = new JButton("Next");
+    construct = new JButton("Построить граф");
+    start = new JButton("Начать поиск максимальной клики");
+    next = new JButton("Далее");
     
     list1 = new ArrayList<>();
     list2 = new ArrayList<>();
@@ -50,7 +50,7 @@ public class Window extends JFrame {
     add(text1, BorderLayout.NORTH); 
     add(text2, BorderLayout.BEFORE_LINE_BEGINS);
 
-    construct.setToolTipText("Click here to construct a graph");
+    construct.setToolTipText("Нажмите здесь, чтоб построить граф");
     buttonsPanel.add(construct);
     c.add(buttonsPanel, BorderLayout.SOUTH);
     initListeners();
@@ -73,22 +73,22 @@ public class Window extends JFrame {
 	  construct.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent e) {
 			  buttonsPanel.remove(construct);
-			  start.setToolTipText("Click here to start the algorithm");
+			  start.setToolTipText("Нажмите здесь, чтоб начать работу алгоритма");
 			  buttonsPanel.add(start);
 			  revalidate(); repaint();
-			  text1.setText("Maximal clique: " + 0);
-			  text2.setText("�urrent clique: " + 0); 	
+			  text1.setText("Размер максимальной клики: " + 0);
+			  text2.setText("Размер текущей клики: " + 0); 	
 			  c.add(gg);
 		  }
 	  });
 	  start.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent e) {
 			  buttonsPanel.remove(start);
-			  next.setToolTipText("Click here to continue search clique");
+			  next.setToolTipText("Нажмите здесь, чтоб начать поиск клики");
 			  buttonsPanel.add(next);
 			  revalidate(); repaint();
-			  text1.setText("Maximal clique: " + 0);
-			  text2.setText("�urrent clique: " + 0);
+			  text1.setText("Размер максимальной клики: " + 0);
+			  text2.setText("Размер текущей клики: " + 0);
 		  }
 	  });
 	  next.addActionListener(new ActionListener() {
@@ -109,8 +109,8 @@ public class Window extends JFrame {
 				  }
 			  }
 			  revalidate(); repaint();
-			  text2.setText("�urrent clique: " + list1.size() );
-			  text1.setText("Maximal clique: " + maxClique.size() );
+			  text2.setText("Размер максимальной клики: " + list1.size() );
+			  text1.setText("Размер текущей клики: " + maxClique.size() );
 			  flag = true;
 			  gg.setClique(list1, flag);
 			  gg.repaint();
@@ -119,8 +119,8 @@ public class Window extends JFrame {
 				  gg.setClique(maxClique, flag);
 				  buttonsPanel.remove(next);
 				  revalidate(); repaint();
-				  text1.setText("Maximal clique: " + maxClique.size() );
-				  text2.setText("The end");
+				  text1.setText("Размер максимальной клики: " + maxClique.size() );
+				  text2.setText("Работа алгоритма завершена.");
 			  }
 		  }
 	  });
